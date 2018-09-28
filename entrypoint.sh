@@ -3,8 +3,8 @@
 #
 # ------------------------------------------------------------------
 # [Jorge Andrada Prieto] [monino@gmail.com]
-# Title:
-# Description:
+# Title: entrypoint.sh
+# Description: entrypoint for oawn image
 # ------------------------------------------------------------------
 #
 
@@ -16,11 +16,20 @@ service redis-server start
 
 if [ ! -f /var/lib/openvas/private/CA/cakey.pem ]; then {
   openvas-setup
-} else {
-  openvas-start
 }
 fi
-#
+
+greenbone-nvt-sync
+greenbone-certdata-sync
+greenbone-scapdata-sync
+openvasmd --update --verbose --progress
+# openvas-manager restart
+# openvas-scanner restart
+
+openvas-check-setup --v9
+openvas-start
+
+
 # DATAVOL=/var/lib/openvas/mgr/
 # OV_PASSWORD=${OV_PASSWORD:-admin}
 # WEB_CERT_FILE=${WEB_CERT_FILE:-""}
@@ -54,8 +63,8 @@ fi
 #
 # if [ -n "$SETUPUSER" ]; then
 #   echo "Setting up user"
-#   /usr/sbin/openvasmd openvasmd --create-user=admin
-#   /usr/sbin/openvasmd --user=admin --new-password=$OV_PASSWORD
+#   openvasmd openvasmd --create-user=admin
+#   openvasmd --user=admin --new-password=$OV_PASSWORD
 # fi
 #
 # echo "Checking setup"

@@ -15,7 +15,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.version=$VERSION \
       org.label-schema.schema-version="1.0" \
       maintainer="Jorge Andrada Prieto <jandradap@gmail.com>" \
-      org.label-schema.docker.cmd=""
+      org.label-schema.docker.cmd="docker run -d --name=oawn -p 9392:9392 jorgeandrada/oawn"
 
 ENV DEBIAN_FRONTEND=noninteractive \
     OV_PASSWORD=admin \
@@ -28,7 +28,11 @@ RUN apt-get update && \
   openvas-cli \
   openvas-manager \
   openvas-nasl \
-  openvas-scanner
+  openvas-scanner \
+  sqlite3 \
+  rsync
+
+COPY openvas-check-setup /usr/local/bin
 
 ADD config/redis.conf /etc/redis/
 RUN sed -i "s/127.0.0.1/0.0.0.0/g" /etc/default/openvas-manager \
@@ -52,3 +56,5 @@ RUN tar -xf /tmp/2.1.6.tar.gz -C /opt \
   && ln -s /opt/nikto-2.1.6/program/nikto.pl /usr/local/bin/nikto.pl
 
 COPY entrypoint.sh /
+
+ENTRYPOINT ["/entrypoint.sh"]
