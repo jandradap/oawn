@@ -48,7 +48,7 @@ RUN apt-get install -y wapiti
 
 # Nikto
 ADD https://github.com/sullo/nikto/archive/2.1.6.tar.gz /tmp
-RUN tar -xf 2.1.6.zip -C /opt \
+RUN tar -xf 2.1.6.tar.gz -C /opt \
   && ln -s /opt/nikto-2.1.6/program/nikto.pl /usr/local/bin/nikto.pl
 
 COPY entrypoint.sh /
