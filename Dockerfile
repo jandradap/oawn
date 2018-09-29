@@ -30,7 +30,9 @@ RUN apt-get update && \
   openvas-nasl \
   openvas-scanner \
   sqlite3 \
-  rsync
+  rsync \
+  wget \
+  curl
 
 COPY openvas-check-setup /usr/local/bin
 
