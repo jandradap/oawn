@@ -39,7 +39,8 @@ RUN apt-get update && \
   openssh-client \
   rpm \
   alien \
-  nsis
+  nsis \
+  snmp
 
 RUN echo "kb_location=/var/run/redis/redis.sock" > /etc/openvas/openvassd.conf \
   && echo "nasl_no_signature_check = no" >> /etc/openvas/openvassd.conf \
