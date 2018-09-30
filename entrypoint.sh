@@ -34,6 +34,9 @@ greenbone-nvt-sync --verbose
 greenbone-certdata-sync --verbose
 greenbone-scapdata-sync --verbose
 /etc/init.d/openvas-manager start
+/etc/init.d/openvas-scanner start
+/etc/init.d/greenbone-security-assistant start
+
 if [ ! -f /var/lib/openvas/plugins/gb_apache_tika_server_detect.nasl.asc ]; then {
   openvasmd --update --verbose --progress && openvasmd --rebuild --verbose --progress
 } else {
@@ -41,13 +44,11 @@ if [ ! -f /var/lib/openvas/plugins/gb_apache_tika_server_detect.nasl.asc ]; then
 }
 fi
 
-
 if openvas-check-setup --v9 --server | grep -q "No users found"; then {
   echo -e "\nNingún usuario creado, creando usuario admin:"
   openvasmd --create-user=admin --role=Admin && openvasmd --user=admin --new-password=$ADMIN_PASSWORD
 }
 fi
 
-/etc/init.d/greenbone-security-assistant start
 openvas-check-setup --v9
 openvas-start

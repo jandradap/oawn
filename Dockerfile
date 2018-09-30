@@ -46,6 +46,7 @@ RUN echo "kb_location=/var/run/redis/redis.sock" > /etc/openvas/openvassd.conf \
   && echo "nasl_no_signature_check = no" >> /etc/openvas/openvassd.conf \
   && sed -i "s/bind 127.0.0.1 ::1/bind 127.0.0.1/g" /etc/redis/redis.conf \
   && echo "unixsocket /var/run/redis/redis.sock" >> /etc/redis/redis.conf \
+  && sed -i "s/\/tmp\/redis.sock/\/var\/run\/redis\/redis.sock/g" /etc/default/openvas-scanner \
   && echo "unixsocketperm 777" >> /etc/redis/redis.conf \
   && sed -i "s/127.0.0.1/0.0.0.0/g" /etc/default/openvas-manager \
   && sed -i "s/127.0.0.1/0.0.0.0/g" /etc/default/greenbone-security-assistant \
