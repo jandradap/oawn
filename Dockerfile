@@ -18,12 +18,12 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
       org.label-schema.docker.cmd="docker run -d --name=oawn -p 9392:9392 jorgeandrada/oawn"
 
 ENV DEBIAN_FRONTEND=noninteractive \
-    OV_PASSWORD=admin \
-    PUBLIC_HOSTNAME=openvas
+  OV_PASSWORD=admin \
+  PUBLIC_HOSTNAME=openvas
 
-# OPENVAS
+# OPENVAS --no-install-recommends
 RUN apt-get update && \
-  apt-get install --no-install-recommends -y \
+  apt-get install -y \
   openvas \
   openvas-cli \
   openvas-manager \
@@ -32,12 +32,21 @@ RUN apt-get update && \
   sqlite3 \
   rsync \
   wget \
-  curl
+  curl \
+  xsltproc \
+  texlive-fonts-recommended \
+  libopenvas-dev \
+  openssh-client \
+  rpm \
+  alien \
+  nsis
 
-COPY openvas-check-setup /usr/local/bin
-
-ADD config/redis.conf /etc/redis/
-RUN sed -i "s/127.0.0.1/0.0.0.0/g" /etc/default/openvas-manager \
+RUN echo "kb_location=/var/run/redis/redis.sock" > /etc/openvas/openvassd.conf \
+  && echo "nasl_no_signature_check = no" >> /etc/openvas/openvassd.conf \
+  && sed -i "s/bind 127.0.0.1 ::1/bind 127.0.0.1/g" /etc/redis/redis.conf \
+  && echo "unixsocket /var/run/redis/redis.sock" >> /etc/redis/redis.conf \
+  && echo "unixsocketperm 777" >> /etc/redis/redis.conf \
+  && sed -i "s/127.0.0.1/0.0.0.0/g" /etc/default/openvas-manager \
   && sed -i "s/127.0.0.1/0.0.0.0/g" /etc/default/greenbone-security-assistant \
   && ln -s /sbin/killall5 /sbin/killall
 
@@ -50,7 +59,10 @@ RUN tar -xf /tmp/arachni-"$ARACHNI_VERSION"-"$ARACHNI_SUBVERSION"-linux-x86_64.t
   && rm -rf /tmp/*
 
 # WAPITI
-RUN apt-get install -y wapiti
+RUN apt-get install -y wapiti \
+  && apt-get autoremove -y \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # Nikto
 ADD https://github.com/sullo/nikto/archive/2.1.6.tar.gz /tmp
