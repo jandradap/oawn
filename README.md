@@ -8,4 +8,10 @@ docker run -d --name=oawn -p 9392:9392 jorgeandrada/oawn
 docker run --rm -it --name=oawn -p 9392:9392 --entrypoint=/bin/bash -v /PATH:/var/lib/openvas jorgeandrada/oawn
 ```
 
+## Nagios monitoring
+
+Install ```libopenvas-dev```and use the binary **check_omp**.
+Example:
+
+
 <a href='https://ko-fi.com/A417UXC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
