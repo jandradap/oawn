@@ -19,16 +19,15 @@ if [ ! -f /var/lib/openvas/private/CA/cakey.pem ]; then {
 }
 fi
 
-openvas-manager restart
-openvas-scanner restart
+# /etc/init.d/openvas-manager restart
+# /etc/init.d/openvas-scanner restart
 greenbone-nvt-sync --verbose
 greenbone-certdata-sync --verbose
 greenbone-scapdata-sync --verbose
 openvasmd --update --verbose --progress # falla
 openvasmd --rebuild --verbose --progress # falla
-chmod 600 /var/lib/openvas/mgr/tasks.db
 
-openvas-check-setup --v9
+openvas-check-setup --v9 --server
 openvas-start
 
 
