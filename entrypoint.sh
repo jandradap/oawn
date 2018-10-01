@@ -33,9 +33,12 @@ fi
 greenbone-nvt-sync --verbose
 greenbone-certdata-sync --verbose
 greenbone-scapdata-sync --verbose
-/etc/init.d/openvas-manager start
-/etc/init.d/openvas-scanner start
 /etc/init.d/greenbone-security-assistant start
+/etc/init.d/openvas-scanner start
+/etc/init.d/openvas-manager start
+
+openvas-start
+
 
 if [ ! -f /var/lib/openvas/plugins/gb_apache_tika_server_detect.nasl.asc ]; then {
   openvasmd --update --verbose --progress && openvasmd --rebuild --verbose --progress

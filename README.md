@@ -8,10 +8,22 @@ sudo docker run --rm -it --name=oawn \
   -p 9390:9390 \
   -p 9392:9392 \
   --entrypoint=/bin/bash \
-  -v /media/Datos/oawn:/var/lib/openvas \
+  -v /media/Datos/oawn/CA:/var/lib/openvas/CA \
+  -v /media/Datos/oawn/cert-data:/var/lib/openvas/cert-data \
+  -v /media/Datos/oawn/plugins:/var/lib/openvas/plugins \
+  -v /media/Datos/oawn/private:/var/lib/openvas/private \
+  -v /media/Datos/oawn/scap-data:/var/lib/openvas/scap-data \
   -v /etc/localtime:/etc/localtime \
-  -v /var/run/openvassd.sock:/var/run/openvassd.sock
-jorgeandrada/oawn
+  -v /var/run/openvassd.sock:/var/run/openvassd.sock:ro \
+jorgeandrada/oawn:develop
+
+ocker run --rm -it --name=oawn   -p 9392:9392   --entrypoint=/bin/bash   
+  -v /media/Datos/oawn/CA:/var/lib/openvas/CA \
+  -v /media/Datos/oawn/cert-data:/var/lib/openvas/cert-data \
+  -v /media/Datos/oawn/plugins:/var/lib/openvas/plugins \
+  -v /media/Datos/oawn/private:/var/lib/openvas/private \
+  -v /media/Datos/oawn/scap-data:/var/lib/openvas/scap-data \
+
 ```
 
 ## Nagios monitoring
