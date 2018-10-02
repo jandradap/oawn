@@ -22,25 +22,27 @@ ENV DEBIAN_FRONTEND=noninteractive \
   PUBLIC_HOSTNAME=openvas
 
 # OPENVAS --no-install-recommends
-RUN apt-get update && \
-  apt-get install -y \
-  openvas \
-  openvas-cli \
-  openvas-manager \
-  openvas-nasl \
-  openvas-scanner \
+RUN apt-get update
+  && apt-get install software-properties-common -y \
+  && apt-get update \
+  && apt-get install -y \
+  openvas9 \
+  libopenvas9-dev \
   sqlite3 \
   rsync \
   wget \
   curl \
   xsltproc \
   texlive-fonts-recommended \
-  libopenvas-dev \
   openssh-client \
   rpm \
   alien \
   nsis \
   snmp
+
+RUN apt-get update --no-install-recommends \
+  texlive-latex-extra \
+  texlive-fonts-recommended
 
 COPY killall /usr/local/bin/
 
