@@ -15,43 +15,31 @@
 ADMIN_PASSWORD="${ADMIN_PASSWORD:-admin12345}"
 
 service redis-server start
-echo "Testing redis status..."
-X="$(redis-cli ping)"
-while  [ "${X}" != "PONG" ]; do
-        echo "Redis not yet ready..."
-        sleep 1
-        X="$(redis-cli ping)"
-done
+
 
 if [ ! -f /var/lib/openvas/private/CA/cakey.pem ]; then {
   openvas-setup
 }
 fi
-
-# /etc/init.d/openvas-manager restart
-# /etc/init.d/openvas-scanner restart
-greenbone-nvt-sync --verbose
-greenbone-certdata-sync --verbose
-greenbone-scapdata-sync --verbose
+chown -R root:root /var/lib/openvas
+openvas-manage-certs -a -f
+greenbone-nvt-sync --verbose --progress
+greenbone-certdata-sync --verbose --progress
+greenbone-scapdata-sync --verbose --progress
 /etc/init.d/greenbone-security-assistant start
 /etc/init.d/openvas-scanner start
 /etc/init.d/openvas-manager start
-
-openvas-start
-
-
-if [ ! -f /var/lib/openvas/plugins/gb_apache_tika_server_detect.nasl.asc ]; then {
-  openvasmd --update --verbose --progress && openvasmd --rebuild --verbose --progress
-} else {
-  openvasmd --update --verbose --progress &&  openvasmd --rebuild --verbose --progress &
-}
-fi
+openvasmd --update --verbose --progress
+openvasmd --rebuild --verbose --progress
 
 if openvas-check-setup --v9 --server | grep -q "No users found"; then {
   echo -e "\nNingún usuario creado, creando usuario admin:"
   openvasmd --create-user=admin --role=Admin && openvasmd --user=admin --new-password=$ADMIN_PASSWORD
+} else {
+  echo -e "\nCambiando password del usuario admin:"
+  openvasmd --user=admin --new-password=$ADMIN_PASSWORD
 }
 fi
 
 openvas-check-setup --v9
-openvas-start
+/etc/init.d/openvas-gsa start

@@ -17,12 +17,26 @@ sudo docker run --rm -it --name=oawn \
   -v /var/run/openvassd.sock:/var/run/openvassd.sock:ro \
 jorgeandrada/oawn:develop
 
-ocker run --rm -it --name=oawn   -p 4000:4000   --entrypoint=/bin/bash   
-  -v /media/Datos/oawn/CA:/var/lib/openvas/CA \
-  -v /media/Datos/oawn/cert-data:/var/lib/openvas/cert-data \
-  -v /media/Datos/oawn/plugins:/var/lib/openvas/plugins \
-  -v /media/Datos/oawn/private:/var/lib/openvas/private \
-  -v /media/Datos/oawn/scap-data:/var/lib/openvas/scap-data \
+docker run --rm -it --name=oawn \
+  -p 9392:9392 \
+  -p 9390:9390 \
+  --entrypoint=/bin/bash \
+  -v /home/jorge/oawn/CA:/var/lib/openvas/CA \
+  -v /home/jorge/oawn/cert-data:/var/lib/openvas/cert-data \
+  -v /home/jorge/oawn/plugins:/var/lib/openvas/plugins \
+  -v /home/jorge/oawn/private:/var/lib/openvas/private \
+  -v /home/jorge/oawn/scap-data:/var/lib/openvas/scap-data \
+pruebas
+
+docker run -d --name=oawn \
+  -p 9392:9392 \
+  -p 9390:9390 \
+  -v /home/jorge/oawn/CA:/var/lib/openvas/CA \
+  -v /home/jorge/oawn/cert-data:/var/lib/openvas/cert-data \
+  -v /home/jorge/oawn/plugins:/var/lib/openvas/plugins \
+  -v /home/jorge/oawn/private:/var/lib/openvas/private \
+  -v /home/jorge/oawn/scap-data:/var/lib/openvas/scap-data \
+pruebas
 
 ```
 
@@ -49,13 +63,6 @@ RUN echo "kb_location=/var/run/redis/redis.sock" > /etc/openvas/openvassd.conf \
   && sed -i "s/127.0.0.1/0.0.0.0/g" /etc/default/greenbone-security-assistant \
   && chmod +x /usr/local/bin/killall
 
-# ARACHNI #falla enlace
-ENV ARACHNI_VERSION="1.5.1" ARACHNI_SUBVERSION="0.5.12"
-ADD https://github.com/Arachni/arachni/releases/download/v"$ARACHNI_VERSION"/arachni-"$ARACHNI_VERSION"-"$ARACHNI_SUBVERSION"-linux-x86_64.tar.gz /tmp
-RUN tar -xf /tmp/arachni-"$ARACHNI_VERSION"-"$ARACHNI_SUBVERSION"-linux-x86_64.tar.gz -C /opt \
-  && ln -s /opt/arachni-"$ARACHNI_VERSION"-"$ARACHNI_SUBVERSION" /opt/arachni \
-  && ln -s /opt/aranchi/bin/* /usr/local/bin/ \
-  && rm -rf /tmp/*
 
 
 
