@@ -25,11 +25,11 @@ chown -R root:root /var/lib/openvas
 echo -e "\nCreando certificados..."
 openvas-manage-certs -a -f
 echo -e "\nActualizando..."
-greenbone-nvt-sync --verbose --progress --curl
-greenbone-certdata-sync --verbose --progress
-greenbone-scapdata-sync --verbose --progress
-echo -e "\nIniciando servicios..."
+greenbone-nvt-sync
+greenbone-scapdata-sync
+greenbone-certdata-sync
 
+echo -e "\nIniciando servicios..."
 /etc/init.d/openvas-scanner start
 /etc/init.d/openvas-manager start
 openvasmd --update --verbose --progress

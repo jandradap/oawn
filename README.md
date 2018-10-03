@@ -39,6 +39,18 @@ docker run --rm -it --name=oawn \
   -v /home/jorge/oawn/scap-data:/var/lib/openvas/scap-data \
 pruebas
 
+docker run --rm -it --name=oawn \
+  -p 9392:9392 \
+  -p 9390:9390 \
+  --entrypoint=/bin/bash \
+  -v /home/monino/oawn/CA:/var/lib/openvas/CA \
+  -v /home/monino/oawn/cert-data:/var/lib/openvas/cert-data \
+  -v /home/monino/oawn/plugins:/var/lib/openvas/plugins \
+  -v /home/monino/oawn/private:/var/lib/openvas/private \
+  -v /home/monino/oawn/scap-data:/var/lib/openvas/scap-data \
+  -v /home/monino/oawn/redis:/var/lib/redis \
+pruebas
+
 ```
 
 ## Nagios monitoring
