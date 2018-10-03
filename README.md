@@ -17,7 +17,7 @@ sudo docker run --rm -it --name=oawn \
   -v /var/run/openvassd.sock:/var/run/openvassd.sock:ro \
 jorgeandrada/oawn:develop
 
-ocker run --rm -it --name=oawn   -p 9392:9392   --entrypoint=/bin/bash   
+ocker run --rm -it --name=oawn   -p 4000:4000   --entrypoint=/bin/bash   
   -v /media/Datos/oawn/CA:/var/lib/openvas/CA \
   -v /media/Datos/oawn/cert-data:/var/lib/openvas/cert-data \
   -v /media/Datos/oawn/plugins:/var/lib/openvas/plugins \
@@ -57,17 +57,6 @@ RUN tar -xf /tmp/arachni-"$ARACHNI_VERSION"-"$ARACHNI_SUBVERSION"-linux-x86_64.t
   && ln -s /opt/aranchi/bin/* /usr/local/bin/ \
   && rm -rf /tmp/*
 
-# WAPITI
-RUN apt-get install -y wapiti \
-  && apt-get autoremove -y \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/*
 
-# Nikto
-ADD https://github.com/sullo/nikto/archive/2.1.6.tar.gz /tmp
-RUN tar -xf /tmp/2.1.6.tar.gz -C /opt \
-  && ln -s /opt/nikto-2.1.6/program/nikto.pl /usr/local/bin/nikto.pl
 
-COPY entrypoint.sh /
-
-ENTRYPOINT ["/entrypoint.sh"] -->
+ -->
