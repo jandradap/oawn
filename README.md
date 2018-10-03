@@ -28,9 +28,10 @@ docker run --rm -it --name=oawn \
   -v /home/jorge/oawn/scap-data:/var/lib/openvas/scap-data \
 pruebas
 
-docker run -d --name=oawn \
+docker run --rm -it --name=oawn \
   -p 9392:9392 \
   -p 9390:9390 \
+  --entrypoint=/bin/bash \
   -v /home/jorge/oawn/CA:/var/lib/openvas/CA \
   -v /home/jorge/oawn/cert-data:/var/lib/openvas/cert-data \
   -v /home/jorge/oawn/plugins:/var/lib/openvas/plugins \

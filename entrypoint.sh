@@ -22,11 +22,14 @@ if [ ! -f /var/lib/openvas/private/CA/cakey.pem ]; then {
 }
 fi
 chown -R root:root /var/lib/openvas
+echo -e "\nCreando certificados..."
 openvas-manage-certs -a -f
-greenbone-nvt-sync --verbose --progress
+echo -e "\nActualizando..."
+greenbone-nvt-sync --verbose --progress --curl
 greenbone-certdata-sync --verbose --progress
 greenbone-scapdata-sync --verbose --progress
-/etc/init.d/greenbone-security-assistant start
+echo -e "\nIniciando servicios..."
+
 /etc/init.d/openvas-scanner start
 /etc/init.d/openvas-manager start
 openvasmd --update --verbose --progress
