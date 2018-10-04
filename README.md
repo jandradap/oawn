@@ -45,11 +45,10 @@ docker run --rm -it --name=oawn \
   --entrypoint=/bin/bash \
   -v /home/monino/oawn/CA:/var/lib/openvas/CA \
   -v /home/monino/oawn/cert-data:/var/lib/openvas/cert-data \
-  -v /home/monino/oawn/plugins:/var/lib/openvas/plugins \
   -v /home/monino/oawn/private:/var/lib/openvas/private \
   -v /home/monino/oawn/scap-data:/var/lib/openvas/scap-data \
   -v /home/monino/oawn/redis:/var/lib/redis \
-pruebas
+jorgeandrada/oawn:develop
 
 ```
 

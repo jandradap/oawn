@@ -14,8 +14,10 @@
 
 ADMIN_PASSWORD="${ADMIN_PASSWORD:-admin12345}"
 
-service redis-server start
+gpg-agent --homedir /var/lib/openvas/openvasmd/gnupg --use-standard-socket --daemon
+gpg --homedir=/var/lib/openvas/openvasmd/gnupg --list-keys
 
+service redis-server start
 
 if [ ! -f /var/lib/openvas/private/CA/cakey.pem ]; then {
   openvas-setup
@@ -30,7 +32,9 @@ greenbone-scapdata-sync
 greenbone-certdata-sync
 
 echo -e "\nIniciando servicios..."
-/etc/init.d/openvas-scanner start
+openvassd --gnupg-home=/var/lib/openvas/openvasmd/gnupg --config-file= /etc/openvas/openvassd.conf --listen-owner=root --listen-group=root &
+
+# /etc/init.d/openvas-scanner start
 /etc/init.d/openvas-manager start
 openvasmd --update --verbose --progress
 openvasmd --rebuild --verbose --progress
