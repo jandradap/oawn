@@ -27,7 +27,7 @@ chown -R root:root /var/lib/openvas
 echo -e "\nCreando certificados..."
 openvas-manage-certs -a -f
 echo -e "\nActualizando..."
-greenbone-nvt-sync
+greenbone-nvt-sync --curl
 greenbone-scapdata-sync
 greenbone-certdata-sync
 
