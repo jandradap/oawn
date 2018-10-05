@@ -50,6 +50,14 @@ docker run --rm -it --name=oawn \
   -v /home/monino/oawn/redis:/var/lib/redis \
 jorgeandrada/oawn:develop
 
+
+docker run --rm -it --name=oawn \
+  -p 9392:9392 \
+  -p 9390:9390 \
+  --entrypoint=/bin/bash \
+  -v /home/jorge/oawn/openvas:/var/lib/openvas \
+  -v /home/jorge/oawn/redis:/var/lib/redis \
+jorgeandrada/oawn:develop
 ```
 
 ## Nagios monitoring
