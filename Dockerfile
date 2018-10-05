@@ -48,7 +48,9 @@ RUN apt-get update && apt-get install software-properties-common -y \
 RUN sed -i "s/bind 127.0.0.1 ::1/bind 127.0.0.1/g" /etc/redis/redis.conf \
   && echo "unixsocket /var/run/redis/redis.sock" >> /etc/redis/redis.conf \
   && echo "unixsocketperm 777" >> /etc/redis/redis.conf \
-  && echo "nasl_no_signature_check = no" >> /etc/openvas/openvassd.conf
+  && echo "nasl_no_signature_check = no" >> /etc/openvas/openvassd.conf \
+  && mkdir /root/backup_gnupg \
+  && cp -avr /var/lib/openvas/openvasmd/gnupg/* /root/backup_gnupg/
 
 COPY openvas-gsa /etc/default/
 

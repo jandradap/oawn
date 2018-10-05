@@ -19,8 +19,8 @@ gpg --homedir=/var/lib/openvas/openvasmd/gnupg --list-keys
 
 service redis-server start
 
-if [ ! -f /var/lib/openvas/private/CA/cakey.pem ]; then {
-  openvas-setup
+if [ ! -f /var/lib/openvas/openvasmd/gnupg/pubring.kbx ]; then {
+  cp -avr /root/backup_gnupg/* /var/lib/openvas/openvasmd/gnupg/
 }
 fi
 chown -R root:root /var/lib/openvas
