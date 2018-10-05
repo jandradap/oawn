@@ -32,7 +32,7 @@ greenbone-scapdata-sync
 greenbone-certdata-sync
 
 echo -e "\nIniciando servicios..."
-openvassd --gnupg-home=/var/lib/openvas/openvasmd/gnupg --config-file= /etc/openvas/openvassd.conf --listen-owner=root --listen-group=root &
+openvassd --gnupg-home=/var/lib/openvas/openvasmd/gnupg --config-file=/etc/openvas/openvassd.conf --listen-owner=root --listen-group=root &
 
 # /etc/init.d/openvas-scanner start
 /etc/init.d/openvas-manager start
