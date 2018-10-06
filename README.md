@@ -4,61 +4,27 @@
 
 
 ```
-sudo docker run --rm -it --name=oawn \
-  -p 9390:9390 \
-  -p 9392:9392 \
-  --entrypoint=/bin/bash \
-  -v /media/Datos/oawn/CA:/var/lib/openvas/CA \
-  -v /media/Datos/oawn/cert-data:/var/lib/openvas/cert-data \
-  -v /media/Datos/oawn/plugins:/var/lib/openvas/plugins \
-  -v /media/Datos/oawn/private:/var/lib/openvas/private \
-  -v /media/Datos/oawn/scap-data:/var/lib/openvas/scap-data \
-  -v /etc/localtime:/etc/localtime \
-  -v /var/run/openvassd.sock:/var/run/openvassd.sock:ro \
+docker run -d --name openvas \
+-p 443:443 \
+-p 9390:9390 \
+-e OV_PASSWORD=securepassword41 \
+-v $(pwd)/openvas:/var/lib/openvas/mgr/
 jorgeandrada/oawn:develop
+```
 
-docker run --rm -it --name=oawn \
-  -p 9392:9392 \
-  -p 9390:9390 \
-  --entrypoint=/bin/bash \
-  -v /home/jorge/oawn/CA:/var/lib/openvas/CA \
-  -v /home/jorge/oawn/cert-data:/var/lib/openvas/cert-data \
-  -v /home/jorge/oawn/plugins:/var/lib/openvas/plugins \
-  -v /home/jorge/oawn/private:/var/lib/openvas/private \
-  -v /home/jorge/oawn/scap-data:/var/lib/openvas/scap-data \
-pruebas
+#### Update NVTs
+Occasionally you'll need to update NVTs. We update the container about once a week but you can update your container by execing into the container and running a few commands:
+```
+docker exec -it openvas bash
+## inside container
+greenbone-nvt-sync
+openvasmd --rebuild --progress
+greenbone-certdata-sync
+greenbone-scapdata-sync
+openvasmd --update --verbose --progress
 
-docker run --rm -it --name=oawn \
-  -p 9392:9392 \
-  -p 9390:9390 \
-  --entrypoint=/bin/bash \
-  -v /home/jorge/oawn/CA:/var/lib/openvas/CA \
-  -v /home/jorge/oawn/cert-data:/var/lib/openvas/cert-data \
-  -v /home/jorge/oawn/plugins:/var/lib/openvas/plugins \
-  -v /home/jorge/oawn/private:/var/lib/openvas/private \
-  -v /home/jorge/oawn/scap-data:/var/lib/openvas/scap-data \
-pruebas
-
-docker run --rm -it --name=oawn \
-  -p 9392:9392 \
-  -p 9390:9390 \
-  --entrypoint=/bin/bash \
-  -v /home/monino/oawn/CA:/var/lib/openvas/CA \
-  -v /home/monino/oawn/cert-data:/var/lib/openvas/cert-data \
-  -v /home/monino/oawn/private:/var/lib/openvas/private \
-  -v /home/monino/oawn/scap-data:/var/lib/openvas/scap-data \
-  -v /home/monino/oawn/redis:/var/lib/redis \
-jorgeandrada/oawn:develop
-
-
-docker run --rm -it --name=oawn \
-  -p 9392:9392 \
-  -p 9390:9390 \
-  --entrypoint=/bin/bash \
-  -v /home/jorge/oawn/openvas:/var/lib/openvas \
-  -v /home/jorge/oawn/redis:/var/lib/redis \
-  -v /home/monino/Documentos/Git/oawn/entrypoint.sh:/entrypoint.sh \
-jorgeandrada/oawn:develop
+/etc/init.d/openvas-manager restart
+/etc/init.d/openvas-scanner restart
 ```
 
 ## Nagios monitoring
@@ -67,24 +33,7 @@ Install ```libopenvas-dev openvas-cli```and use the binary **check_omp**.
 Example:
 
 ```
-check_omp -H localhost -p 9390 -u admin -w Admin_12345 --status -T 'test_casa' --last-report -v -t 30
+check_omp -H localhost -p 9390 -u admin -w Admin_12345 --status -T 'scan_casa' --last-report -v -t 30
 ```
 
 <a href='https://ko-fi.com/A417UXC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
-
-https://linuxhint.com/openvas-ubuntu-installation-tutorial/
-<!--
-RUN echo "kb_location=/var/run/redis/redis.sock" > /etc/openvas/openvassd.conf \
-  && echo "nasl_no_signature_check = no" >> /etc/openvas/openvassd.conf \
-  && sed -i "s/bind 127.0.0.1 ::1/bind 127.0.0.1/g" /etc/redis/redis.conf \
-  && echo "unixsocket /var/run/redis/redis.sock" >> /etc/redis/redis.conf \
-  && echo "unixsocketperm 777" >> /etc/redis/redis.conf \
-  && sed -i "s/\/tmp\/redis.sock/\/var\/run\/redis\/redis.sock/g" /etc/default/openvas-scanner \
-  && sed -i "s/127.0.0.1/0.0.0.0/g" /etc/default/openvas-manager \
-  && sed -i "s/127.0.0.1/0.0.0.0/g" /etc/default/greenbone-security-assistant \
-  && chmod +x /usr/local/bin/killall
-
-
-
-
- -->
