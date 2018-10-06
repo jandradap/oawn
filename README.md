@@ -16,6 +16,9 @@ jorgeandrada/oawn:develop
 Occasionally you'll need to update NVTs. We update the container about once a week but you can update your container by execing into the container and running a few commands:
 ```
 docker exec -it openvas openvas-update
+```
+Or
+```
 docker exec -it openvas bash
 ## inside container
 greenbone-nvt-sync
@@ -37,6 +40,7 @@ Example:
 check_omp -H localhost -p 9390 -u admin -w securepassword41 --status -T 'ScanWebserver' --last-report -v -t 30
 ```
 
+## Console
 **List config**
 ```
 root@0c213d9ad348:/# omp -u admin -w securepassword41 -g
