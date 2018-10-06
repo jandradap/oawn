@@ -1,0 +1,21 @@
+#!/bin/bash
+# -*- ENCODING: UTF-8 -*-
+#
+# ------------------------------------------------------------------
+# [Jorge Andrada Prieto] [monino@gmail.com]
+# Title: openvas-update
+# Description: entrypoint for oawn image
+# ------------------------------------------------------------------
+#
+
+#debug
+# set -x
+# trap read debug
+greenbone-nvt-sync
+openvasmd --rebuild --progress
+greenbone-certdata-sync
+greenbone-scapdata-sync
+openvasmd --update --verbose --progress
+
+/etc/init.d/openvas-manager restart
+/etc/init.d/openvas-scanner restart
