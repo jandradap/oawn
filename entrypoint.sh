@@ -20,6 +20,7 @@ gpg --homedir=/var/lib/openvas/openvasmd/gnupg --list-keys
 service redis-server start
 
 if [ ! -f /var/lib/openvas/openvasmd/gnupg/pubring.kbx ]; then {
+  mkdir -p /var/lib/openvas/openvasmd/gnupg/
   cp -avr /root/backup_gnupg/* /var/lib/openvas/openvasmd/gnupg/
 }
 fi
