@@ -18,3 +18,5 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 
 # OPENVAS
 COPY openvas-* /usr/local/bin/
+
+RUN echo "alias check-setup='openvas-check-setup --v9'" >> /root/.bashrc

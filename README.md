@@ -8,13 +8,14 @@ docker run -d --name openvas \
 -p 443:443 \
 -p 9390:9390 \
 -e OV_PASSWORD=securepassword41 \
--v $(pwd)/openvas:/var/lib/openvas/mgr/
+-v $(pwd)/openvas:/var/lib/openvas/mgr/ \
 jorgeandrada/oawn:develop
 ```
 
 #### Update NVTs
 Occasionally you'll need to update NVTs. We update the container about once a week but you can update your container by execing into the container and running a few commands:
 ```
+docker exec -it openvas openvas-update
 docker exec -it openvas bash
 ## inside container
 greenbone-nvt-sync
@@ -33,12 +34,12 @@ Install ```libopenvas-dev openvas-cli```and use the binary **check_omp**.
 Example:
 
 ```
-check_omp -H localhost -p 9390 -u admin -w Admin_12345 --status -T 'scan_casa' --last-report -v -t 30
+check_omp -H localhost -p 9390 -u admin -w securepassword41 --status -T 'ScanWebserver' --last-report -v -t 30
 ```
 
 **List config**
 ```
-root@0c213d9ad348:/# omp -u admin -w admin -g
+root@0c213d9ad348:/# omp -u admin -w securepassword41 -g
 8715c877-47a0-438d-98a3-27c7a6ab2196  Discovery
 085569ce-73ed-11df-83c3-002264764cea  empty
 daba56c8-73ec-11df-a475-002264764cea  Full and fast
@@ -51,19 +52,32 @@ bbca7412-a950-11e3-9109-406186ea4fc5  System Discovery
 
 **List targets**
 ```
-root@0c213d9ad348:/# omp -u admin -w admin -T
+root@0c213d9ad348:/# omp -u admin -w securepassword41 -T
 263f660d-1769-4111-a9c8-6937da290238  Target for immediate scan of IP 192.168.1.2
 
 ```
 
 **List task**
 ```
-root@0c213d9ad348:/# omp -u admin -w admin -G
+root@0c213d9ad348:/# omp -u admin -w securepassword41 -G
 ebd048a5-602b-42e8-bc44-938ccef63b13  Stopped      Immediate scan of IP 192.168.1.2
 b1a3db64-f75d-4037-bcea-496aa6024f0d  New          prueba_pve
 ```
 
-# omp -u user -w openvas -C -n New_task -c 74db13d6-7489-11df-91b9-002264764cea -t 5267d906-756d-4ed0-b749-6c34371dec65
+**Create target**
+```
+omp -u admin -w securepassword41 --xml '
+<create_target>
+<name>host_prueba</name>
+<hosts>192.168.1.2</hosts>
+</create_target>'
+```
 
+**Create task for a target**
+```
+omp -u admin -w securepassword41 -C -n New_task -c 2d3f051c-55ba-11e3-bf43-406186ea4fc5 -t $(omp -u admin -w securepassword41 -T | grep host_prueba | awk -F " " '{print$1}')
+
+omp -u admin -w securepassword41 -X '<create_task><name>ScanWebserver</name><config id="2d3f051c-55ba-11e3-bf43-406186ea4fc5"/><target id="ec6b1b7c-bd13-4a40-b6b4-5b04ee843394"/></create_task>'
+```
 
 <a href='https://ko-fi.com/A417UXC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
