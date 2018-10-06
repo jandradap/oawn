@@ -36,4 +36,34 @@ Example:
 check_omp -H localhost -p 9390 -u admin -w Admin_12345 --status -T 'scan_casa' --last-report -v -t 30
 ```
 
+**List config**
+```
+root@0c213d9ad348:/# omp -u admin -w admin -g
+8715c877-47a0-438d-98a3-27c7a6ab2196  Discovery
+085569ce-73ed-11df-83c3-002264764cea  empty
+daba56c8-73ec-11df-a475-002264764cea  Full and fast
+698f691e-7489-11df-9d8c-002264764cea  Full and fast ultimate
+708f25c4-7489-11df-8094-002264764cea  Full and very deep
+74db13d6-7489-11df-91b9-002264764cea  Full and very deep ultimate
+2d3f051c-55ba-11e3-bf43-406186ea4fc5  Host Discovery
+bbca7412-a950-11e3-9109-406186ea4fc5  System Discovery
+```
+
+**List targets**
+```
+root@0c213d9ad348:/# omp -u admin -w admin -T
+263f660d-1769-4111-a9c8-6937da290238  Target for immediate scan of IP 192.168.1.2
+
+```
+
+**List task**
+```
+root@0c213d9ad348:/# omp -u admin -w admin -G
+ebd048a5-602b-42e8-bc44-938ccef63b13  Stopped      Immediate scan of IP 192.168.1.2
+b1a3db64-f75d-4037-bcea-496aa6024f0d  New          prueba_pve
+```
+
+# omp -u user -w openvas -C -n New_task -c 74db13d6-7489-11df-91b9-002264764cea -t 5267d906-756d-4ed0-b749-6c34371dec65
+
+
 <a href='https://ko-fi.com/A417UXC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
