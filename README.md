@@ -57,6 +57,7 @@ docker run --rm -it --name=oawn \
   --entrypoint=/bin/bash \
   -v /home/jorge/oawn/openvas:/var/lib/openvas \
   -v /home/jorge/oawn/redis:/var/lib/redis \
+  -v /home/monino/Documentos/Git/oawn/entrypoint.sh:/entrypoint.sh \
 jorgeandrada/oawn:develop
 ```
 

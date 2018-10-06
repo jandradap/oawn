@@ -14,16 +14,18 @@
 
 ADMIN_PASSWORD="${ADMIN_PASSWORD:-admin12345}"
 
-gpg-agent --homedir /var/lib/openvas/openvasmd/gnupg --use-standard-socket --daemon
-gpg --homedir=/var/lib/openvas/openvasmd/gnupg --list-keys
-
-service redis-server start
-
 if [ ! -f /var/lib/openvas/openvasmd/gnupg/pubring.kbx ]; then {
   mkdir -p /var/lib/openvas/openvasmd/gnupg/
   cp -avr /root/backup_gnupg/* /var/lib/openvas/openvasmd/gnupg/
 }
 fi
+
+gpg-agent --homedir /var/lib/openvas/openvasmd/gnupg --use-standard-socket --daemon
+gpg --homedir=/var/lib/openvas/openvasmd/gnupg --list-keys
+
+service redis-server start
+
+
 chown -R root:root /var/lib/openvas
 echo -e "\nCreando certificados..."
 openvas-manage-certs -a -f
