@@ -19,4 +19,7 @@ LABEL org.label-schema.build-date=$BUILD_DATE \
 # OPENVAS
 COPY openvas-* /usr/local/bin/
 
-RUN echo "alias check-setup='openvas-check-setup --v9'" >> /root/.bashrc
+RUN echo "nasl_no_signature_check = no" >> /etc/openvas/openvassd.conf \
+  && echo "alias check-setup='openvas-check-setup --v9'" >> /root/.bashrc \
+  && rm -rf /var/lib/openvas/scap-data/* \
+  && rm -rf /var/lib/openvas/plugins/*
