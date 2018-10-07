@@ -1,6 +1,6 @@
 # oawn [![](https://images.microbadger.com/badges/version/jorgeandrada/oawn:latest.svg)](https://microbadger.com/images/jorgeandrada/oawn:latest "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/commit/jorgeandrada/oawn:latest.svg)](https://microbadger.com/images/jorgeandrada/oawn:latest "Get your own commit badge on microbadger.com") [![](https://images.microbadger.com/badges/image/jorgeandrada/oawn:latest.svg)](https://microbadger.com/images/jorgeandrada/oawn:latest "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/jorgeandrada/oawn:develop.svg)](https://microbadger.com/images/jorgeandrada/oawn:develop "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/commit/jorgeandrada/oawn:develop.svg)](https://microbadger.com/images/jorgeandrada/oawn:develop "Get your own commit badge on microbadger.com") [![](https://images.microbadger.com/badges/image/jorgeandrada/oawn:develop.svg)](https://microbadger.com/images/jorgeandrada/oawn:develop "Get your own image badge on microbadger.com")
 
-**openvas-arachni-wapiti-nikto**
+**openvas-arachni-wapiti-nikto** <a href='https://ko-fi.com/A417UXC'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
 
 Fork from <a href=https://hub.docker.com/r/mikesplain/openvas/>mikesplain/openvas</a>
 
@@ -9,8 +9,11 @@ docker run -d --name openvas \
 -p 443:443 \
 -p 9390:9390 \
 -e OV_PASSWORD=securepassword41 \
--v $(pwd)/openvas:/var/lib/openvas/mgr/ \
-jorgeandrada/oawn:develop
+-v $(pwd)/openvas2/mgr:/var/lib/openvas/mgr/ \
+-v $(pwd)/openvas2/scap-data:/var/lib/openvas/scap-data/ \
+-v $(pwd)/openvas2/plugins:/var/lib/openvas/plugins/ \
+-v $(pwd)/openvas2/redis:/var/lib/redis/ \
+jorgeandrada/oawn
 ```
 
 #### Update NVTs
@@ -84,5 +87,3 @@ omp -u admin -w securepassword41 -C -n New_task -c 2d3f051c-55ba-11e3-bf43-40618
 
 omp -u admin -w securepassword41 -X '<create_task><name>ScanWebserver</name><config id="2d3f051c-55ba-11e3-bf43-406186ea4fc5"/><target id="ec6b1b7c-bd13-4a40-b6b4-5b04ee843394"/></create_task>'
 ```
-
-<a href='https://ko-fi.com/A417UXC' target='_blank'><img height='36' style='border:0px;height:36px;' src='https://az743702.vo.msecnd.net/cdn/kofi2.png?v=0' border='0' alt='Buy Me a Coffee at ko-fi.com' /></a>
